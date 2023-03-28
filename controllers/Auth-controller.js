@@ -52,6 +52,7 @@ const signup = async (req, res, next) => {
       occupation: "",
     },
     AboutMe: "",
+    ProfilePic:"",
   });
 
   try {
@@ -125,6 +126,18 @@ const login = async (req, res, next) => {
     );
   }
 
+
+
+  const params = {
+    Bucket: process.env.CYCLIC_BUCKET_NAME,
+    Key: user.ProfilePic,
+    Expires: 3600,
+  };
+  const url = await s3.getSignedUrl("getObject", params);
+
+
+
+
   let token;
   try {
     token = jwt.sign(
@@ -144,6 +157,7 @@ const login = async (req, res, next) => {
     FirstName: user.FirstName,
     LastName: user.LastName,
     token: token,
+    ProfilePic:url
   });
 };
 
@@ -168,8 +182,20 @@ const getUserDetails = async (req, res, next) => {
     );
   }
 
+  const params = {
+    Bucket: process.env.CYCLIC_BUCKET_NAME,
+    Key: user.ProfilePic,
+    Expires: 3600,
+  };
+
+  const url = await s3.getSignedUrl("getObject", params);
+
+
+
+
   res.status(201).json({
     user: user,
+    ProfilePic:url
   });
 };
 
