@@ -28,6 +28,12 @@ router.post(
 //   "/profile-details/:data/:uid",
 //   profileUpdate.detailsUpdate
 // );
+router.patch("/profile-details/about/:uid",check("AboutMe").not().isEmpty(),profileUpdate.aboutUpdate);
+
+router.patch("/profile-details/socials/:uid",profileUpdate.socialsUpdate);
+
+router.patch("/profile-details/profinfo/:uid",profileUpdate.educationUpdate);
+
 
 router.get("/userdata/:uid", authController.getUserDetails);
 
