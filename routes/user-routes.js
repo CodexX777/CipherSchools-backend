@@ -7,6 +7,12 @@ const profileUpdate = require("../controllers/profileUpdate-controller");
 const fileUpload = require("../middleware/fileUpload");
 
 const router = express.Router();
+
+if(req.method==='OPTIONS'){
+  return next();
+}
+
+
 router.post(
   "/login",
   [check("Email").isEmail(), check("Password").isLength({ min: 6 })],
