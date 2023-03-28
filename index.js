@@ -11,21 +11,24 @@ const app = express();
 
 //middlewares
 
+app.use(bodyParser.json());
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "https://astonishing-liger-70b1dc.netlify.app");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type,Accept,Authorization"
   );
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
   if (req.method === "OPTIONS") {
-    return res.status(201);
+     res.status(201);
+     next();
   } else next();
 });
 // app.use(cors());
 
 
-app.use(bodyParser.json());
+
 
 
 
