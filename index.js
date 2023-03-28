@@ -16,7 +16,9 @@ app.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type,Accept,Authorization"
   );
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE");
-  next();
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  } else next();
 });
 
 app.use("/api/user", userRoute);
