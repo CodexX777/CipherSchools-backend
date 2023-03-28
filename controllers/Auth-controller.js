@@ -43,13 +43,13 @@ const signup = async (req, res, next) => {
       LinkedIn: "",
       Github: "",
       Instagram: "",
-      Facebook:"",
+      Facebook: "",
       Website: "",
       Twitter: "",
     },
     ProfessionalInfo: {
-      education:"",
-      occupation:""
+      education: "",
+      occupation: "",
     },
     AboutMe: "",
   });
@@ -172,6 +172,63 @@ const getUserDetails = async (req, res, next) => {
     user: user,
   });
 };
+
+const passwordReset = async (req, res, next) => {
+  const { uid, CurrentPassword, NewPassword, ConfirmPassword } = req.body;
+  let user;
+  try {
+    user = await User.findById(uid);
+  } catch (error) {
+    return next(
+      new HttpError("Something went wrong, please try again later.", 500)
+    );
+  }
+
+  if (NewPassword === ConfirmPassword) {
+    let isValidPassword = false;
+    try {
+      isValidPassword = await bcrypt.compare(CurrentPassword, user.Password);
+    } catch (error) {
+      console.log(error);
+      return next(
+        new HttpError("Could not login the user, Please try again.", 500)
+      );
+    }
+    if (!isValidPassword) {
+      return next(
+        new HttpError(
+          "Could not identify user, Credentials seem to be wrong.",
+          401
+        )
+      );
+    }
+
+    let hashedPassword;
+
+    try {
+      hashedPassword = await bcrypt.hash(NewPassword, 12);
+      user.Password=hashedPassword;
+      await user.save();
+    } catch (error) {
+      return next(
+        new HttpError("Could not create new user, Please try again.", 500)
+      );
+    }
+
+
+  }else{
+    return next(
+      new HttpError("Could not reset the user password, passwords didn't match", 401)
+    )
+  }
+
+  res.status(201).json({
+   message:"password updated successfully."
+  });
+
+};
+
+exports.passwordReset = passwordReset;
 
 exports.getUserDetails = getUserDetails;
 exports.signup = signup;
