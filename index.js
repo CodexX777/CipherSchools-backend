@@ -5,28 +5,29 @@ const HttpError = require("./models/http-error");
 const mongoose = require("mongoose");
 const app = express();
 
-const cors = require('cors');
+// const cors = require('cors');
 
 
 
 //middlewares
 
-app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type,Accept,Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  } else next();
+});
+// app.use(cors());
 
 
 app.use(bodyParser.json());
 
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type,Accept,Authorization"
-//   );
-//   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE");
-//   if (req.method === "OPTIONS") {
-//     return res.sendStatus(200);
-//   } else next();
-// });
+
 
 app.use("/api/user", userRoute);
 
