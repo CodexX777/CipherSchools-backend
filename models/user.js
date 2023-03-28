@@ -6,6 +6,7 @@ const uniqueValidator = require("mongoose-unique-validator");
 const userSchema = new Schema({
   FirstName: { type: String, required: true },
   LastName: { type: String, required: false },
+  ProfilePic: { type: String, required: false },
   PhoneNo: { type: Number, required: true, minlength: 10 },
   Email: { type: String, required: true, unique: true },
   Password: { type: String, required: true, minlength: 6 },
@@ -20,12 +21,7 @@ const userSchema = new Schema({
     Website: { type: String, required: false },
     Twitter: { type: String, required: false },
   },
-  Interests: [
-    {
-      name: { type: String, required: true },
-      id: { type: Number, required: true },
-    },
-  ],
+  Interests: [{ type: String, required: false }],
   ProfessionalInfo: {
     education: { type: String, required: false },
     occupation: { type: String, required: false },
