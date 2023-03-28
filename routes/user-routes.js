@@ -8,9 +8,9 @@ const fileUpload = require("../middleware/fileUpload");
 
 const router = express.Router();
 
-if(req.method==='OPTIONS'){
-  return next();
-}
+// if(req.method==='OPTIONS'){
+//   return next();
+// }
 
 
 router.post(
