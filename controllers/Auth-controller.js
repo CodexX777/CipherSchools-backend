@@ -52,7 +52,7 @@ const signup = async (req, res, next) => {
       occupation: "",
     },
     AboutMe: "",
-    ProfilePic:"",
+    ProfilePic: "",
   });
 
   try {
@@ -126,17 +126,12 @@ const login = async (req, res, next) => {
     );
   }
 
-
-
   const params = {
     Bucket: process.env.CYCLIC_BUCKET_NAME,
     Key: user.ProfilePic,
     Expires: 3600,
   };
   const url = await s3.getSignedUrl("getObject", params);
-
-
-
 
   let token;
   try {
@@ -157,7 +152,7 @@ const login = async (req, res, next) => {
     FirstName: user.FirstName,
     LastName: user.LastName,
     token: token,
-    ProfilePic:url
+    ProfilePic: url,
   });
 };
 
@@ -190,12 +185,9 @@ const getUserDetails = async (req, res, next) => {
 
   const url = await s3.getSignedUrl("getObject", params);
 
-
-
-
   res.status(201).json({
     user: user,
-    ProfilePic:url
+    ProfilePic: url,
   });
 };
 
@@ -233,25 +225,25 @@ const passwordReset = async (req, res, next) => {
 
     try {
       hashedPassword = await bcrypt.hash(NewPassword, 12);
-      user.Password=hashedPassword;
+      user.Password = hashedPassword;
       await user.save();
     } catch (error) {
       return next(
         new HttpError("Could not create new user, Please try again.", 500)
       );
     }
-
-
-  }else{
+  } else {
     return next(
-      new HttpError("Could not reset the user password, passwords didn't match", 401)
-    )
+      new HttpError(
+        "Could not reset the user password, passwords didn't match",
+        401
+      )
+    );
   }
 
   res.status(201).json({
-   message:"password updated successfully."
+    message: "password updated successfully.",
   });
-
 };
 
 exports.passwordReset = passwordReset;
