@@ -1,13 +1,9 @@
 const HttpError = require("../models/http-error");
-const User = require('../models/user');
+const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-
-
-
 const signup = async (req, res, next) => {
-
   const { FirstName, Email, Password, PhoneNo, LastName } = req.body;
 
   let existingUser;
@@ -36,16 +32,15 @@ const signup = async (req, res, next) => {
     );
   }
 
-
   const newUser = new User({
     FirstName,
     LastName,
     Email,
-    Password:hashedPassword,
+    Password: hashedPassword,
     PhoneNo,
-    followers:[],
-    Links:[],
-    ProfessionalInfo:[]
+    followers: [],
+    Links: [],
+    ProfessionalInfo: [],
   });
 
   try {
@@ -60,7 +55,7 @@ const signup = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { uid: newUser._id, email: newUser.email},
+      { uid: newUser._id, email: newUser.email },
       process.env.JWT_KEY,
       { expiresIn: "1h" }
     );
@@ -74,14 +69,13 @@ const signup = async (req, res, next) => {
   res.status(201).json({
     uid: newUser._id,
     Email: newUser.Email,
-    FirstName:newUser.FirstName,
-    LastName:newUser.LastName,
+    FirstName: newUser.FirstName,
+    LastName: newUser.LastName,
     token: token,
   });
 };
 
 const login = async (req, res, next) => {
-
   const { Email, Password } = req.body;
 
   let user;
@@ -112,7 +106,6 @@ const login = async (req, res, next) => {
     );
   }
   if (!isValidPassword) {
-    
     return next(
       new HttpError(
         "Could not identify user, Credentials seem to be wrong.",
@@ -120,7 +113,6 @@ const login = async (req, res, next) => {
       )
     );
   }
- 
 
   let token;
   try {
@@ -138,13 +130,38 @@ const login = async (req, res, next) => {
   res.status(201).json({
     uid: user._id,
     Email: user.Email,
-    FirstName:user.FirstName,
-    LastName:user.LastName,
+    FirstName: user.FirstName,
+    LastName: user.LastName,
     token: token,
   });
 };
 
+const getUserDetails = async (req, res, next) => {
+  const userId = req.params.uid;
 
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (error) {
+    return next(
+      new HttpError("Something went wrong, please try again later.", 500)
+    );
+  }
+
+  if (!user) {
+    return next(
+      new HttpError(
+        "Could not identify user, Credentials seem to be wrong.",
+        401
+      )
+    );
+  }
+
+  res.status(201).json({
+    user: user,
+  });
+};
+
+exports.getUserDetails = getUserDetails;
 exports.signup = signup;
 exports.login = login;
-
