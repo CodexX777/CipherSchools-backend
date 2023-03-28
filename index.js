@@ -19,7 +19,7 @@ app.use((req, res, next) => {
   );
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE");
   if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
+    return res.status(201);
   } else next();
 });
 // app.use(cors());
