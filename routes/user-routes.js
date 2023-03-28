@@ -28,6 +28,9 @@ router.post(
 //   "/profile-details/:data/:uid",
 //   profileUpdate.detailsUpdate
 // );
+router.patch("/password/reset",authController.passwordReset);
+
+
 router.patch("/profile-details/about/:uid",check("AboutMe").not().isEmpty(),profileUpdate.aboutUpdate);
 
 router.patch("/profile-details/socials/:uid",profileUpdate.socialsUpdate);
