@@ -8,26 +8,27 @@ const profileUpdate = require("../controllers/profileUpdate-controller");
 const router = express.Router();
 router.post(
   "/login",
-  [check("email").isEmail(), check("password").isLength({ min: 6 })],
+  [check("Email").isEmail(), check("Password").isLength({ min: 6 })],
   authController.login
 );
 
 router.post(
   "/signup",
   [
-    check("name").not().isEmpty(),
-    check("email").isEmail(),
-    check("password").isLength({ min: 6 }),
+    check("FirstName").not().isEmpty(),
+    check("Email").isEmail(),
+    check("Password").isLength({ min: 6 }),
+    check("PhoneNo")
   ],
   authController.signup
 );
 
-router.patch(
-  //:data would tell which data we have to update eg: interest, occupation,etc
-  "/profile-details/:data/:uid",
-  profileUpdate.detailsUpdate
-);
+// router.patch(
+//   //:data would tell which data we have to update eg: interest, occupation,etc
+//   "/profile-details/:data/:uid",
+//   profileUpdate.detailsUpdate
+// );
 
-router.get("/user/:uid", authController.getUserDetails);
+// router.get("/user/:uid", authController.getUserDetails);
 
 module.exports = router;
