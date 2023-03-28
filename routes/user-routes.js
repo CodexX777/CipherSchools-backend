@@ -29,6 +29,6 @@ router.post(
 //   profileUpdate.detailsUpdate
 // );
 
-// router.get("/user/:uid", authController.getUserDetails);
+router.get("/userdata/:uid", authController.getUserDetails);
 
 module.exports = router;
