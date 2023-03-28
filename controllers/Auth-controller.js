@@ -39,8 +39,19 @@ const signup = async (req, res, next) => {
     Password: hashedPassword,
     PhoneNo,
     followers: [],
-    Links: [],
-    ProfessionalInfo: [],
+    Links: {
+      LinkedIn: "",
+      Github: "",
+      Instagram: "",
+      Facebook:"",
+      Website: "",
+      Twitter: "",
+    },
+    ProfessionalInfo: {
+      education:"",
+      occupation:""
+    },
+    AboutMe: "",
   });
 
   try {
