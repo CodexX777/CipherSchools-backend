@@ -4,6 +4,7 @@ const authController = require("../controllers/Auth-controller");
 const { check } = require("express-validator");
 
 const profileUpdate = require("../controllers/profileUpdate-controller");
+const fileUpload = require("../middleware/fileUpload");
 
 const router = express.Router();
 router.post(
@@ -18,25 +19,30 @@ router.post(
     check("FirstName").not().isEmpty(),
     check("Email").isEmail(),
     check("Password").isLength({ min: 6 }),
-    check("PhoneNo")
+    check("PhoneNo"),
   ],
   authController.signup
 );
 
-// router.patch(
-//   //:data would tell which data we have to update eg: interest, occupation,etc
-//   "/profile-details/:data/:uid",
-//   profileUpdate.detailsUpdate
-// );
-router.patch("/password/reset",authController.passwordReset);
+router.patch("/password/reset", authController.passwordReset);
 
+router.patch(
+  "/profile-details/about/:uid",
+  check("AboutMe").not().isEmpty(),
+  profileUpdate.aboutUpdate
+);
 
-router.patch("/profile-details/about/:uid",check("AboutMe").not().isEmpty(),profileUpdate.aboutUpdate);
+router.patch(
+  "/userinfo/update/:uid",
+  fileUpload.single("file"),
+  profileUpdate.userInfoUpdate
+);
 
-router.patch("/profile-details/socials/:uid",profileUpdate.socialsUpdate);
+router.patch("/profile-details/socials/:uid", profileUpdate.socialsUpdate);
 
-router.patch("/profile-details/profinfo/:uid",profileUpdate.educationUpdate);
+router.patch("/profile-details/interests/:uid", profileUpdate.interestUpdate);
 
+router.patch("/profile-details/profinfo/:uid", profileUpdate.educationUpdate);
 
 router.get("/userdata/:uid", authController.getUserDetails);
 
