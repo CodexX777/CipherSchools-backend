@@ -36,7 +36,7 @@ const aboutUpdate = async (req, res, next) => {
   }
 
   res.status(201).json({
-    message: "about section updated.",
+    aboutMe: user.AboutMe,
   });
 };
 
@@ -71,7 +71,7 @@ const socialsUpdate = async (req, res, next) => {
   await user.save();
 
   res.status(201).json({
-    message: "Links updated successfully",
+    links: user.Links,
   });
 };
 
@@ -136,7 +136,7 @@ const interestUpdate = async (req, res, next) => {
   await user.save();
 
   res.status(201).json({
-    message: "interests updated successfully.",
+    interests:user.Interests
   });
 };
 

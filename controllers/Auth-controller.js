@@ -2,6 +2,8 @@ const HttpError = require("../models/http-error");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const AWS = require('aws-sdk');
+const s3 =new AWS.S3();
 
 const signup = async (req, res, next) => {
   const { FirstName, Email, Password, PhoneNo, LastName } = req.body;
@@ -84,6 +86,12 @@ const signup = async (req, res, next) => {
     FirstName: newUser.FirstName,
     LastName: newUser.LastName,
     token: token,
+    ProfilePic: url,
+    PhoneNo:newUser.PhoneNo,
+    Links:newUser.Links,
+    Interests:newUser.Interests,
+    ProfessionalInfo:newUser.ProfessionalInfo,
+    AboutMe:newUser.AboutMe
   });
 };
 
@@ -153,6 +161,11 @@ const login = async (req, res, next) => {
     LastName: user.LastName,
     token: token,
     ProfilePic: url,
+    PhoneNo:user.PhoneNo,
+    Links:user.Links,
+    Interests:user.Interests,
+    ProfessionalInfo:user.ProfessionalInfo,
+    AboutMe:user.AboutMe
   });
 };
 
