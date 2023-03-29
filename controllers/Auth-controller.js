@@ -160,7 +160,7 @@ const login = async (req, res, next) => {
     FirstName: user.FirstName,
     LastName: user.LastName,
     token: token,
-    ProfilePic: url,
+    ProfilePic: "",
     PhoneNo:user.PhoneNo,
     Links:user.Links,
     Interests:user.Interests,
