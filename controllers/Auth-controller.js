@@ -86,7 +86,7 @@ const signup = async (req, res, next) => {
     FirstName: newUser.FirstName,
     LastName: newUser.LastName,
     token: token,
-    ProfilePic: "",
+    ProfilePic:"https://s3.amazonaws.com/",
     PhoneNo:newUser.PhoneNo,
     Links:newUser.Links,
     Interests:newUser.Interests,
@@ -134,12 +134,12 @@ const login = async (req, res, next) => {
     );
   }
 
-  // const params = {
-  //   Bucket: process.env.CYCLIC_BUCKET_NAME,
-  //   Key: user.ProfilePic,
-  //   Expires: 3600,
-  // };
-  // const url = await s3.getSignedUrl("getObject", params);
+  const params = {
+    Bucket: process.env.CYCLIC_BUCKET_NAME,
+    Key: user.ProfilePic,
+    Expires: 3600,
+  };
+  const url = await s3.getSignedUrl("getObject", params);
 
   let token;
   try {
@@ -160,7 +160,7 @@ const login = async (req, res, next) => {
     FirstName: user.FirstName,
     LastName: user.LastName,
     token: token,
-    ProfilePic: "",
+    ProfilePic: url,
     PhoneNo:user.PhoneNo,
     Links:user.Links,
     Interests:user.Interests,
