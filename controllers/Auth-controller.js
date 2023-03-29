@@ -134,12 +134,12 @@ const login = async (req, res, next) => {
     );
   }
 
-  const params = {
-    Bucket: process.env.CYCLIC_BUCKET_NAME,
-    Key: user.ProfilePic,
-    Expires: 3600,
-  };
-  const url = await s3.getSignedUrl("getObject", params);
+  // const params = {
+  //   Bucket: process.env.CYCLIC_BUCKET_NAME,
+  //   Key: user.ProfilePic,
+  //   Expires: 3600,
+  // };
+  // const url = await s3.getSignedUrl("getObject", params);
 
   let token;
   try {
