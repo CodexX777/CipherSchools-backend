@@ -139,7 +139,7 @@ const login = async (req, res, next) => {
     Key: user.ProfilePic,
     Expires: 3600,
   };
-  const url = await s3.getSignedUrl("getObject", params);
+  const url = s3.getSignedUrl("getObject", params);
 
   let token;
   try {
