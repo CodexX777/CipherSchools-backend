@@ -86,7 +86,7 @@ const signup = async (req, res, next) => {
     FirstName: newUser.FirstName,
     LastName: newUser.LastName,
     token: token,
-    ProfilePic: url,
+    ProfilePic: "",
     PhoneNo:newUser.PhoneNo,
     Links:newUser.Links,
     Interests:newUser.Interests,
