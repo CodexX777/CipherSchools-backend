@@ -69,7 +69,7 @@ const signup = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { uid: newUser._id, email: newUser.email },
+      { uid: newUser._id, email: newUser.Email },
       process.env.JWT_KEY,
       { expiresIn: "1h" }
     );
@@ -139,12 +139,12 @@ const login = async (req, res, next) => {
     Key: user.ProfilePic,
     Expires: 3600,
   };
-  const url = s3.getSignedUrl("getObject", params);
+  const url =s3.getSignedUrl("getObject", params);
 
   let token;
   try {
     token = jwt.sign(
-      { uid: user._id, email: user.email },
+      { uid: user._id, email: user.Email },
       process.env.JWT_KEY,
       { expiresIn: "1h" }
     );
